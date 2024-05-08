@@ -1,7 +1,21 @@
+#!/usr/bin/env python3
+
+#! Esse negõcio aqui encima é tipo o do EV3, não questione, apenas aceite :D
+
 import cv2
 from ultralytics import YOLO
 from collections import defaultdict
 import numpy as np
+import rospy # Importa o rospy para publicar a posição do cone
+from std_msgs.msg import Float32MultiArray # Importa o tipo de mensagem Float32MultiArray (que é um array de floats, pra publicar a posição x e y do cone)
+
+rospy.init_node("distancia_posicionamento") # Inicia o nó "distancia_posicionamento" (nome do nó que publica a posição do cone)
+
+pub = rospy.Publisher("distancia_posicionamento", Float32MultiArray, queue_size=10) # Publica a posição do cone no tópico "distancia_posicionamento" (tópico que o robô vai se inscrever pra saber a posição do cone)
+
+rate = rospy.Rate(1000) # Define a taxa de publicação (1000 Hz)
+
+posicao = Float32MultiArray() # Cria a variável posicao do tipo Float32MultiArray (array de floats) para publicar a posição do cone
 
 # Parâmetros da câmera (preencha com os valores da sua câmera)
 focal_length = 640  # Substitua com a distância focal da sua câmera (em pixels)
@@ -80,6 +94,15 @@ while True:
                         print(
                             f"Posição do objeto em relação ao centro da tela: (x={offset_x:.2f}, y={offset_y:.2f})"
                         )
+                        
+                        #! Coisas do ROS --------------------------------------------------
+                        
+                        rospy.loginfo(f"Posição do objeto em relação ao centro da tela: (x={offset_x:.2f}, y={offset_y:.2f})") # Loga a posição do cone no terminal
+                        posicao.data = [round(offset_x, 2), round(offset_y, 2)] # Preenche a variável posicao com a posição x e y do cone (com 2 casas decimais)
+                        pub.publish(posicao) # Publica a posição do cone no tópico "distancia_posicionamento" (tópico que o robô vai se inscrever pra saber a posição do cone)
+                        rate.sleep() # Espera o tempo necessário para manter a taxa de publicação
+                        
+                        #! ----------------------------------------------------------------
 
                 except Exception as e:
                     print(f"Erro no rastreamento: {e}")

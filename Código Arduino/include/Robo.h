@@ -16,6 +16,7 @@ class Robo {
         void andar_reto(int velocidade_rpm); // Função para fazer o robô andar reto indefinidamente
         void andar_reto_cm(int distancia_cm, int velocidade_rpm = 100); // Função para fazer o robô andar reto por uma distância específica
         void virar_robo(int angulo); // Função para fazer o robô virar para um ângulo específico
+        void alinhar_com_cone(); // Função para fazer o robô alinhar com um cone
 
         //! Pode ser que esses objetos deem erro por causa do construtor
         //! Eu tô confiando 100% no Copilot aqui, porque ele falou que tá tudo certo :D 

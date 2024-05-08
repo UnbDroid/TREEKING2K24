@@ -6,9 +6,27 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "Tempo.h"
+#include "ros.h"
+#include "std_msgs/Float32MultiArray.h"
 
 //* Este arquivo contém a implementação da classe Robo, que é responsável por
 //* controlar o robô e ter os comandos básicos de movimentação
+
+//! Antes de começar a declarar as funções, vamos declarar o subscriber do ROS ------------------------------------------------------
+
+ros::NodeHandle nh; // Cria um objeto do tipo NodeHandle que serve para se comunicar com o ROS
+
+float cone_posicao_x; // Variável que armazena a posição x do cone
+float cone_posicao_y; // Variável que armazena a posição y do cone
+
+void posicaoCallback(const std_msgs::Float32MultiArray& msg) { // Função de callback para o subscriber do ROS (que recebe a posição do robô)
+    cone_posicao_x = msg.data[0]; // Armazena a posição x do cone recebida pelo rosserial
+    cone_posicao_y = msg.data[1]; // Armazena a posição y do cone recebida pelo rosserial
+} 
+
+ros::Subscriber<std_msgs::Float32MultiArray> sub("distancia_posicionamento", &posicaoCallback); // Cria um subscriber que recebe a posição do robô (subscriber é um objeto que recebe mensagens do tópico "distancia_posicionamento" do ROS)
+
+//! ---------------------------------------------------------------------------------------------------------------------------------
 
 // Construtor da classe Robo
 //! De novo, eu tô confiando 100% no Copilot aqui, porque ele falou que tá tudo certo :D
@@ -16,6 +34,8 @@ Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
 : motor(motor), volante(volante), giroscopio(giroscopio)
 {
     Serial.println("Robo construido");
+    nh.initNode(); // Inicializa o nó do ROS
+    nh.subscribe(sub); // Inicializa o subscriber do ROS
 }
 
 // Função para fazer o robô andar reto indefinidamente
@@ -107,5 +127,22 @@ void Robo::virar_robo(int angulo)
         volante.virar_volante(giro_volante); // O volante gira para o ângulo desejado
         int velocidade_rpm = 80 + (abs(giro_volante) * 40 / 35); // Velocidade de referência
         motor.ligar_motor(1, velocidade_rpm); // O robô anda reto
+    }
+}
+
+void Robo::alinhar_com_cone() { // Função para fazer o robô alinhar com um cone
+    nh.spinOnce(); // Verifica se há mensagens do ROS e as processa (chamando a função de callback)
+    delay(1); // Delayzinho pra dar tempo de processar as mensagens
+    while (cone_posicao_x > 0.01 or cone_posicao_x < 0.01) { // 0.01 é a tolerância, pode ser ajustada
+        nh.spinOnce(); // Verifica se há mensagens do ROS e as processa
+        delay(1); // Delayzinho pra dar tempo de processar as mensagens
+        int angulo = cone_posicao_x > 0 ? 1 : -1; // gira para a direita se x > 0, caso contrário gira para a esquerda
+        if (cone_posicao_x > 0.01) {  // Se o cone estiver à direita
+            angulo = -35;
+        } else if (cone_posicao_x < -0.01) { // Se o cone estiver à esquerda
+            angulo = 35;
+        }
+        volante.virar_volante(angulo); // O volante gira para o ângulo desejado
+        motor.ligar_motor(1, 80 + (abs(angulo) * 40 / 35)); // O robô anda encurvado
     }
 }
