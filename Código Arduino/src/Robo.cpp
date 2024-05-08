@@ -146,3 +146,12 @@ void Robo::alinhar_com_cone() { // Função para fazer o robô alinhar com um co
         motor.ligar_motor(1, 80 + (abs(angulo) * 40 / 35)); // O robô anda encurvado
     }
 }
+
+void Robo::retornar_posicao_cone() { // Função para fazer o robô retornar à posição do cone
+    nh.spinOnce(); // Verifica se há mensagens do ROS e as processa
+    delay(1); // Delayzinho pra dar tempo de processar as mensagens
+    Serial.print("Posicao x: ");
+    Serial.println(cone_posicao_x);
+    Serial.print("Posicao y: ");
+    Serial.println(cone_posicao_y);
+}

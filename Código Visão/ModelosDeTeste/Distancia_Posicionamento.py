@@ -6,6 +6,9 @@ import cv2
 from ultralytics import YOLO
 from collections import defaultdict
 import numpy as np
+
+#! Coisas do ROS --------------------------------------------------
+
 import rospy # Importa o rospy para publicar a posição do cone
 from std_msgs.msg import Float32MultiArray # Importa o tipo de mensagem Float32MultiArray (que é um array de floats, pra publicar a posição x e y do cone)
 
@@ -16,6 +19,8 @@ pub = rospy.Publisher("distancia_posicionamento", Float32MultiArray, queue_size=
 rate = rospy.Rate(1000) # Define a taxa de publicação (1000 Hz)
 
 posicao = Float32MultiArray() # Cria a variável posicao do tipo Float32MultiArray (array de floats) para publicar a posição do cone
+
+#! ----------------------------------------------------------------
 
 # Parâmetros da câmera (preencha com os valores da sua câmera)
 focal_length = 640  # Substitua com a distância focal da sua câmera (em pixels)
