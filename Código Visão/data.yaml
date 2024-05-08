@@ -1,0 +1,11 @@
+names:
+- 0 cone
+nc: 1
+roboflow:
+  license: MIT
+  project: data-augmentaded-cone-dataset
+  url: https://universe.roboflow.com/rcx-2022/data-augmentaded-cone-dataset/dataset/1
+  version: 1
+  workspace: rcx-2022
+train: C:\Users\phmpe\OneDrive\UnB\Droid\TREEKING2K24\Data-Augmentaded---Cone-dataset-1\train\images
+val: C:\Users\phmpe\OneDrive\UnB\Droid\TREEKING2K24\Data-Augmentaded---Cone-dataset-1\valid\images
