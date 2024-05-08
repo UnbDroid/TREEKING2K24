@@ -1,3 +1,9 @@
+#Código para verificação das versões do Pytorch e se a GPU está configurada
+#Precisamos de GPU para rodar o YOLOv8, então é importante verificar se está tudo certo
+
+
+
+
 import torch
 
 print(torch.__version__)

@@ -1,0 +1,1 @@
+Comandos gerais usados para 
