@@ -13,6 +13,11 @@
 class Robo {
     public:
         Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio); // Construtor da classe Robo
+
+        float cone_posicao_x = 0.0; // Posição do cone no eixo x
+        float cone_posicao_y = 0.0; // Posição do cone no eixo y
+
+        void ler_visao(); // Função para ler a visão do robô
         void andar_reto(int velocidade_rpm); // Função para fazer o robô andar reto indefinidamente
         void andar_reto_cm(int distancia_cm, int velocidade_rpm = 100); // Função para fazer o robô andar reto por uma distância específica
         void virar_robo(int angulo); // Função para fazer o robô virar para um ângulo específico

@@ -3,24 +3,18 @@
 #! Esse negõcio aqui encima é tipo o do EV3, não questione, apenas aceite :D
 
 import cv2
+import serial
 from ultralytics import YOLO
 from collections import defaultdict
 import numpy as np
 
-#! Coisas do ROS --------------------------------------------------
+#! Coisas da Comunicação Serial --------------------------------------------------
 
-import rospy # Importa o rospy para publicar a posição do cone
-from std_msgs.msg import Float32MultiArray # Importa o tipo de mensagem Float32MultiArray (que é um array de floats, pra publicar a posição x e y do cone)
+porta = "/dev/ttyACM0" # Porta serial do Arduino
+velocidade_baud = 9600 # Velocidade de comunicação
+ser = serial.Serial(porta, velocidade_baud) # Inicializa a comunicação serial
 
-rospy.init_node("distancia_posicionamento") # Inicia o nó "distancia_posicionamento" (nome do nó que publica a posição do cone)
-
-pub = rospy.Publisher("distancia_posicionamento", Float32MultiArray, queue_size=10) # Publica a posição do cone no tópico "distancia_posicionamento" (tópico que o robô vai se inscrever pra saber a posição do cone)
-
-rate = rospy.Rate(1000) # Define a taxa de publicação (1000 Hz)
-
-posicao = Float32MultiArray() # Cria a variável posicao do tipo Float32MultiArray (array de floats) para publicar a posição do cone
-
-#! ----------------------------------------------------------------
+#! -------------------------------------------------------------------------------
 
 # Parâmetros da câmera (preencha com os valores da sua câmera)
 focal_length = 640  # Substitua com a distância focal da sua câmera (em pixels)
@@ -100,15 +94,8 @@ while True:
                             f"Posição do objeto em relação ao centro da tela: (x={offset_x:.2f}, y={offset_y:.2f})"
                         )
                         
-                        #! Coisas do ROS --------------------------------------------------
+                        ser.write(f"{offset_x:.2f},{offset_y:.2f}\n".encode('utf-8')) # Envia a posição do objeto para o Arduino
                         
-                        rospy.loginfo(f"Posição do objeto em relação ao centro da tela: (x={offset_x:.2f}, y={offset_y:.2f})") # Loga a posição do cone no terminal
-                        posicao.data = [round(offset_x, 2), round(offset_y, 2)] # Preenche a variável posicao com a posição x e y do cone (com 2 casas decimais)
-                        pub.publish(posicao) # Publica a posição do cone no tópico "distancia_posicionamento" (tópico que o robô vai se inscrever pra saber a posição do cone)
-                        rate.sleep() # Espera o tempo necessário para manter a taxa de publicação
-                        
-                        #! ----------------------------------------------------------------
-
                 except Exception as e:
                     print(f"Erro no rastreamento: {e}")
 
@@ -123,4 +110,5 @@ while True:
 # Liberar recursos
 cap.release()
 cv2.destroyAllWindows()
+ser.close() # Fecha a comunicação serial
 print("Desligando...")
