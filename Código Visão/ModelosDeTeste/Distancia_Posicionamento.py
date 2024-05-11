@@ -1,18 +1,15 @@
-#!/usr/bin/env python3
-
-#! Esse negõcio aqui encima é tipo o do EV3, não questione, apenas aceite :D
-
 import cv2
 import serial
+import sys
 from ultralytics import YOLO
 from collections import defaultdict
 import numpy as np
+import time
 
 #! Coisas da Comunicação Serial --------------------------------------------------
 
-porta = "/dev/ttyACM0" # Porta serial do Arduino
-velocidade_baud = 9600 # Velocidade de comunicação
-ser = serial.Serial(porta, velocidade_baud) # Inicializa a comunicação serial
+arduino = serial.Serial('/dev/ttyUSB0', 9600)
+time.sleep(5)
 
 #! -------------------------------------------------------------------------------
 
@@ -94,10 +91,14 @@ while True:
                             f"Posição do objeto em relação ao centro da tela: (x={offset_x:.2f}, y={offset_y:.2f})"
                         )
                         
-                        ser.write(f"{offset_x:.2f},{offset_y:.2f}\n".encode('utf-8')) # Envia a posição do objeto para o Arduino
+                        sys.stdout.flush()
                         
+                        # Enviar posição do objeto para o Arduino via serial
+                        arduino.write(f"{offset_x:.2f},{offset_y:.2f}\n".encode('utf-8'))
+
                 except Exception as e:
                     print(f"Erro no rastreamento: {e}")
+                    sys.stdout.flush()
 
     # Exibir imagem com resultados
     cv2.imshow("Tela", img)
@@ -110,5 +111,5 @@ while True:
 # Liberar recursos
 cap.release()
 cv2.destroyAllWindows()
-ser.close() # Fecha a comunicação serial
+arduino.close()  # Fecha a comunicação serial
 print("Desligando...")
