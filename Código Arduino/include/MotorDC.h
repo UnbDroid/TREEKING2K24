@@ -10,10 +10,18 @@ class MotorDC{
     public:
         MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, const int IN2); // Construtor da classe MotorDC
 
-        //! Seguem as variáveis que deveriam ser privadas, mas estão públicas para facilitar a implementação
-        //! e porque eu não tenho paciência nem culhões para fazer getters e setters
-        //! Beijos de luz, Estevão Ferreira --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        void ligar_motor(int dir, int pwmVal);
+        void ler_encoder();
+        void andar_reto(int velocidade_rpm);
+        void andar_reto_cm(int distancia_cm, int velocidade_rpm);
 
+    private:
+        int ENCA; // Cabo amarelo
+        int ENCB; // Cabo branco
+        int PWM;
+        int IN1;
+        int IN2;
+        
         volatile double posi; // posição do motor em radianos
         double voltas = 0; // número de voltas do motor
         double voltas_anterior = 0; // número de voltas do motor no instante anterior, para cálculo do erro
@@ -28,19 +36,6 @@ class MotorDC{
         const float kp = 5.0; // constante proporcional do controle PID
         const float ki = 3.0; // constante integral do controle PID
         const float kd = 0.0; // constante derivativa do controle PID
-
-        //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        void ligar_motor(int dir, int pwmVal);
-        void ler_encoder();
-        void andar_reto(int velocidade_rpm);
-        void andar_reto_cm(int distancia_cm, int velocidade_rpm);
-    private:
-        int ENCA; // Cabo amarelo
-        int ENCB; // Cabo branco
-        int PWM;
-        int IN1;
-        int IN2;
 };
 
 #endif
