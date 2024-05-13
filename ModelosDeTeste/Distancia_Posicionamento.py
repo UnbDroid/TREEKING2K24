@@ -30,7 +30,7 @@ while True:
 
     success, img = cap.read()
 
-    # ? ... Até aqui
+    # ? ... Até aqui+
     if success:
         # Processamento com YOLO
         if seguir:
