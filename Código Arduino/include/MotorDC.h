@@ -33,6 +33,8 @@ class MotorDC{
 
         void ligar_motor(int dir, int pwmVal);
         void ler_encoder();
+        void andar_reto(int velocidade_rpm);
+        void andar_reto_cm(int distancia_cm, int velocidade_rpm);
     private:
         int ENCA; // Cabo amarelo
         int ENCB; // Cabo branco

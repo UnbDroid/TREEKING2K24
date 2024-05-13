@@ -13,15 +13,10 @@
 
 // Declarações dos objetos -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//MotorDC motor_dc(ENCA, ENCB, PWM, IN1, IN2);
-//Volante volante(SERVO);
-//Giroscopio giroscopio;
-//Robo robo(motor_dc, volante, giroscopio);
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-float float1 = 0.0; // Variável para armazenar o primeiro float recebido pela comunicação serial
-float float2 = 0.0; // Variável para armazenar o segundo float recebido pela comunicação serial
+MotorDC motor_dc(ENCA, ENCB, PWM, IN1, IN2);
+Volante volante(SERVO);
+Giroscopio giroscopio;
+Robo robo(motor_dc, volante, giroscopio);
 
 // Declaração das variáveis de tempo ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -62,20 +57,8 @@ void loop() {
   T = millis(); // tempo atual em milissegundos
   dt = (T - prevT)/1000.0; // tempo decorrido em segundos em relação a última medição
   prevT = T; // atualiza o tempo anterior
-  
-  if (Serial.available() > 0) {
-    String input = Serial.readStringUntil('\n'); // Read the input from serial until newline character
-    int commaIndex = input.indexOf(','); // Find the index of the comma character
-    if (commaIndex != -1) { // If comma character is found
-      String float1Str = input.substring(0, commaIndex); // Extract the first float string
-      String float2Str = input.substring(commaIndex + 1); // Extract the second float string
-      float1 = float1Str.toFloat(); // Convert the first float string to float
-      float2 = float2Str.toFloat(); // Convert the second float string to float
-      // Now you can use float1 and float2 variables for further processing
-    }
-  }
 
   // Ler encoder do motor
-  //robo.motor.ler_encoder();
+  robo.motor.ler_encoder();
 
 }

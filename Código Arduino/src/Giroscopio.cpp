@@ -33,7 +33,7 @@ Giroscopio::Giroscopio() { // Construtor da classe Giroscopio
     
 }
 
-float Giroscopio::get_roll()
+float Giroscopio::get_x()
 {
     imu.Read(); // Lê os dados do sensor imu
     gyro_x_rad = imu.gyro_x_radps(); // Lê o valor do giroscópio no eixo x em radianos por segundo
@@ -43,7 +43,7 @@ float Giroscopio::get_roll()
     return roll_angle * deg_to_rad; // Retorna o valor do ângulo de roll
 }
 
-float Giroscopio::get_pitch()
+float Giroscopio::get_y()
 {
     imu.Read(); // Lê os dados do sensor imu
     gyro_y_rad = imu.gyro_y_radps(); // Lê o valor do giroscópio no eixo y em radianos por segundo
@@ -53,7 +53,7 @@ float Giroscopio::get_pitch()
     return pitch_angle * deg_to_rad; // Retorna o valor do ângulo de pitch
 }
 
-float Giroscopio::get_yaw()
+float Giroscopio::get_z()
 {
     imu.Read(); // Lê os dados do sensor imu
     gyro_z_rad = imu.gyro_z_radps(); // Lê o valor do giroscópio no eixo z em radianos por segundo

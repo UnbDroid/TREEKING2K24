@@ -17,12 +17,13 @@ class Robo {
         float cone_posicao_x = 0.0; // Posição do cone no eixo x
         float cone_posicao_y = 0.0; // Posição do cone no eixo y
 
-        void ler_visao(); // Função para ler a visão do robô
-        void andar_reto(int velocidade_rpm); // Função para fazer o robô andar reto indefinidamente
-        void andar_reto_cm(int distancia_cm, int velocidade_rpm = 100); // Função para fazer o robô andar reto por uma distância específica
-        void virar_robo(int angulo); // Função para fazer o robô virar para um ângulo específico
-        void alinhar_com_cone(); // Função para fazer o robô alinhar com um cone
-        void retornar_posicao_cone(); // Função para fazer o robô retornar à posição do cone
+        void ler_visao();
+        void andar_reto(int velocidade_rpm);
+        void andar_reto_cm(int distancia_cm, int velocidade_rpm = 100);
+        void virar_robo(int angulo);
+        float retornar_posicao_x_do_cone();
+        float retornar_posicao_y_do_cone();
+        void alinhar_com_cone();
 
         //! Pode ser que esses objetos deem erro por causa do construtor
         //! Eu tô confiando 100% no Copilot aqui, porque ele falou que tá tudo certo :D 
@@ -37,6 +38,8 @@ class Robo {
         float angulo_atual_x = 0.0; // Ângulo atual do robô no eixo x
         float angulo_atual_y = 0.0; // Ângulo atual do robô no eixo y
         float angulo_atual_z = 0.0; // Ângulo atual do robô no eixo z
+        float posicao_cone_x = 0.0; // Posição do cone no eixo x
+        float posicao_cone_y = 0.0; // Posição do cone no eixo y
 };
 
 

@@ -11,9 +11,9 @@
 class Giroscopio{
     public:
         Giroscopio(); // Construtor da classe Giroscopio
-        float get_roll(); // Função para obter o valor de roll(x) do sensor
-        float get_pitch(); // Função para obter o valor de pitch(y) do sensor
-        float get_yaw(); // Função para obter o valor de yaw(z) do sensor
+        float get_x(); // Função para obter o valor de roll(x) do sensor
+        float get_y(); // Função para obter o valor de pitch(y) do sensor
+        float get_z(); // Função para obter o valor de yaw(z) do sensor
     private:
         bfs::Mpu9250 imu; // Criação do objeto imu da classe Mpu9250
         int status; // Status do sensor
