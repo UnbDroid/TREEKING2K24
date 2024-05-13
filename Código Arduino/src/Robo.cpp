@@ -10,13 +10,6 @@
 //* Este arquivo contém a implementação da classe Robo, que é responsável por
 //* controlar o robô e ter os comandos básicos de movimentação
 
-//! Antes de começar a declarar as funções, vamos declarar o subscriber do ROS ------------------------------------------------------
-
-const int rxPin = 2; // Pino RX do módulo Serial
-const int txPin = 3; // Pino TX do módulo Serial
-
-//! ---------------------------------------------------------------------------------------------------------------------------------
-
 // Construtor da classe Robo
 //! De novo, eu tô confiando 100% no Copilot aqui, porque ele falou que tá tudo certo :D
 Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
@@ -93,9 +86,8 @@ float Robo::retornar_posicao_y_do_cone() {
 void Robo::alinhar_com_cone() {
     Robo::ler_visao();
     int giro_volante = 0;
-    while (Robo::cone_posicao_x > 0.05 or Robo::cone_posicao_x < 0.05) { // 0.01 é a tolerância, pode ser ajustada
-        Robo::ler_visao(); // Lê a visão do robô
-        delay(1); // Delayzinho pra dar tempo de processar as mensagens
+    while (Robo::cone_posicao_x > 0.05 or Robo::cone_posicao_x < 0.05) { //! 0.05 é a tolerância, mas pode e deve ser ajustada
+        Robo::ler_visao();
         if (Robo::cone_posicao_x > 0.10) {  // Se o cone estiver à direita
             giro_volante = -35;
         } else if (Robo::cone_posicao_x < -0.10) { // Se o cone estiver à esquerda
@@ -103,7 +95,7 @@ void Robo::alinhar_com_cone() {
         } else {
             giro_volante = static_cast<int>(Robo::angulo_atual_x*3.5);
         }
-        volante.virar_volante(giro_volante); // O volante gira para o ângulo desejado
-        motor.ligar_motor(1, 80 + (abs(giro_volante) * 40 / 35)); // O robô anda encurvado
+        volante.virar_volante(giro_volante);
+        Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
     }
 }
