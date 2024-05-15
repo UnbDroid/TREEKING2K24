@@ -25,28 +25,28 @@ MotorDC::MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, c
 void MotorDC::ligar_motor(int dir, int pwmVal)
 {
   this -> dir = dir;
-  analogWrite(MotorDC::PWM, pwmVal); // (pino do pwm, valor do pwm (máximo = 255))
-  if (MotorDC::dir == 1)
+  analogWrite(PWM, pwmVal); // (pino do pwm, valor do pwm (máximo = 255))
+  if (dir == 1)
   { // 1 para frente
-    digitalWrite(MotorDC::IN1, HIGH);
-    digitalWrite(MotorDC::IN2, LOW);
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
   }
-  else if (MotorDC::dir == -1)
+  else if (dir == -1)
   { // -1 para trás
-    digitalWrite(MotorDC::IN1, LOW);
-    digitalWrite(MotorDC::IN2, HIGH);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, HIGH);
   }
   else
   { // 0 para parar
-    digitalWrite(MotorDC::IN1, LOW);
-    digitalWrite(MotorDC::IN2, LOW);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
   }
 }
 
 // Função para ler o encoder do motor
 void MotorDC::ler_encoder()
 {
-  double b = digitalRead(MotorDC::ENCB);
+  double b = digitalRead(ENCB);
   if (b > 0)
   { // Se ler pulso positivo do encoder
     posi++;
@@ -64,27 +64,27 @@ void MotorDC::andar_reto(int velocidade_rpm)
   //!
   // TODO: Testar a função
 
-  MotorDC::rpm_referencia = velocidade_rpm; // Velocidade de referência
+  rpm_referencia = velocidade_rpm; // Velocidade de referência
 
   double posi_atual = 0;      // posição atual do encoder
   noInterrupts();             // desabilita interrupções
-  posi_atual = MotorDC::posi; // atualiza a posição atual do encoder
+  posi_atual = posi; // atualiza a posição atual do encoder
   interrupts();               // reabilita interrupções
 
-  MotorDC::voltas_anterior = MotorDC::voltas; // atualiza o número de voltas anterior
+  voltas_anterior = voltas; // atualiza o número de voltas anterior
 
-  MotorDC::voltas = posi_atual / MotorDC::encoder_volta;            // calcula o número de voltas do motor
-  MotorDC::rps = (MotorDC::voltas - MotorDC::voltas_anterior) / dt; // calcula a velocidade do motor em rps
+  voltas = posi_atual / encoder_volta;            // calcula o número de voltas do motor
+  rps = (voltas - voltas_anterior) / dt; // calcula a velocidade do motor em rps
 
-  double e = MotorDC::rpm_referencia - (MotorDC::rps * 60); // calcula o erro da velocidade em rpm
+  double e = rpm_referencia - (rps * 60); // calcula o erro da velocidade em rpm
 
-  float p = MotorDC::kp * e;
+  float p = kp * e;
 
-  MotorDC::eintegral += e;
+  eintegral += e;
 
-  float d = MotorDC::kd * (e - MotorDC::eprev) / dt;
+  float d = kd * (e - eprev) / dt;
 
-  float u = p + (MotorDC::ki * MotorDC::eintegral) + d;
+  float u = p + (ki * eintegral) + d;
 
   float pwmVal = fabs(u); // valor do pwm que será enviado ao motor
 
@@ -96,18 +96,18 @@ void MotorDC::andar_reto(int velocidade_rpm)
   // Define a direção do motor com base no valor de u
   if (u > 0)
   {
-    MotorDC::dir = 1;
+    dir = 1;
   }
   else if (u < 0)
   {
-    MotorDC::dir = -1;
+    dir = -1;
   }
   else
   {
-    MotorDC::dir = 0;
+    dir = 0;
   }
 
-  MotorDC::ligar_motor(MotorDC::dir, pwmVal);
+  MotorDC::ligar_motor(dir, pwmVal);
 }
 
 void MotorDC::andar_reto_cm(int distancia_cm, int velocidade_rpm)
@@ -118,17 +118,17 @@ void MotorDC::andar_reto_cm(int distancia_cm, int velocidade_rpm)
   //! Com certeza absoluta a gente vai ter que fazer um controle pra velocidade, porque ele vai andar mais do que o necessário
   //! mas por enquanto vamos deixar assim :D
 
-  int voltas_inicio = MotorDC::posi / MotorDC::encoder_volta;
+  int voltas_inicio = posi / encoder_volta;
   if (distancia_cm > 0)
   {
-    while ((MotorDC::posi / MotorDC::encoder_volta) - voltas_inicio < distancia_cm)
+    while ((posi / encoder_volta) - voltas_inicio < distancia_cm)
     {
       andar_reto(velocidade_rpm);
     }
   }
   else
   {
-    while ((MotorDC::posi / MotorDC::encoder_volta) - voltas_inicio > distancia_cm)
+    while ((posi / encoder_volta) - voltas_inicio > distancia_cm)
     {
       andar_reto(velocidade_rpm);
     }

@@ -26,8 +26,8 @@ void Robo::ler_visao() {
     if (commaIndex != -1) {
       String float1Str = input.substring(0, commaIndex);
       String float2Str = input.substring(commaIndex + 1);
-      Robo::cone_posicao_x = float1Str.toFloat(); // cone_posicao_x recebe o valor da posição x do cone
-      Robo::cone_posicao_y = float2Str.toFloat(); // cone_posicao_y recebe o valor da posição y do cone
+      cone_posicao_x = float1Str.toFloat(); // cone_posicao_x recebe o valor da posição x do cone
+      cone_posicao_y = float2Str.toFloat(); // cone_posicao_y recebe o valor da posição y do cone
     }
   }
 }
@@ -73,27 +73,27 @@ void Robo::virar_robo(int angulo)
 // Função para retornar a posição x do cone
 float Robo::retornar_posicao_x_do_cone() { 
     Robo::ler_visao();
-    return Robo::cone_posicao_x;
+    return cone_posicao_x;
 }
 
 // Função para retornar a posição y do cone
 float Robo::retornar_posicao_y_do_cone() {
     Robo::ler_visao();
-    return Robo::cone_posicao_y;
+    return cone_posicao_y;
 }
 
 // Função para fazer o robô alinhar com um cone (faz o mesmo que virar_robo, mas usando a visão do robô como referência para alinhar com o cone)
 void Robo::alinhar_com_cone() {
     Robo::ler_visao();
     int giro_volante = 0;
-    while (Robo::cone_posicao_x > 0.05 or Robo::cone_posicao_x < 0.05) { //! 0.05 é a tolerância, mas pode e deve ser ajustada
+    while (cone_posicao_x > 0.05 or cone_posicao_x < 0.05) { //! 0.05 é a tolerância, mas pode e deve ser ajustada
         Robo::ler_visao();
-        if (Robo::cone_posicao_x > 0.10) {  // Se o cone estiver à direita
+        if (cone_posicao_x > 0.10) {  // Se o cone estiver à direita
             giro_volante = -35;
-        } else if (Robo::cone_posicao_x < -0.10) { // Se o cone estiver à esquerda
+        } else if (cone_posicao_x < -0.10) { // Se o cone estiver à esquerda
             giro_volante = 35;
         } else {
-            giro_volante = static_cast<int>(Robo::angulo_atual_x*3.5);
+            giro_volante = static_cast<int>(angulo_atual_x*3.5);
         }
         volante.virar_volante(giro_volante);
         Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
