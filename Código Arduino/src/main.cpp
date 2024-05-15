@@ -18,19 +18,13 @@ Volante volante(SERVO);
 Giroscopio giroscopio;
 Robo robo(motor_dc, volante, giroscopio);
 
-// Declaração das variáveis de tempo ------------------------------------------------------------------------------------------------------------------------------------------------
-
-double T; // tempo atual em milissegundos
-double prevT; // tempo anterior em milissegundos
-double dt; // diferença de tempo em segundos
-
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Declaração da comunicação serial do ROS ------------------------------------------------------------------------------------------------------------------------------------------
+// Declaração das variáveis de tempo ------------------------------------------------------------------------------------------------------------------------------------------------
 
-//? Quais são os tipos de mensagens que precisarão ser enviadas pelo ROS?
-//TODO: Verificar se é necessário enviar mensagens de outros tipos
-//TODO: Criar Publisher e Subscriber para os tipos de mensagens necessários
+double T;
+double prevT; 
+double dt;
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,9 +48,9 @@ void setup() {
 void loop() {
   
   // Cálculo do tempo decorrido
-  T = millis(); // tempo atual em milissegundos
-  dt = (T - prevT)/1000.0; // tempo decorrido em segundos em relação a última medição
-  prevT = T; // atualiza o tempo anterior
+  T = millis();
+  dt = (T - prevT)/1000.0; // Usa a diferença em um segundo
+  prevT = T;
 
   // Ler encoder do motor
   robo.motor.ler_encoder();

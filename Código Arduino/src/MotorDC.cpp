@@ -24,28 +24,29 @@ MotorDC::MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, c
 // Função para ligar o motor e definir a direção e a velocidade
 void MotorDC::ligar_motor(int dir, int pwmVal)
 {
-  analogWrite(PWM, pwmVal); // (pino do pwm, valor do pwm (máximo = 255))
-  if (dir == 1)
+  this -> dir = dir;
+  analogWrite(MotorDC::PWM, pwmVal); // (pino do pwm, valor do pwm (máximo = 255))
+  if (MotorDC::dir == 1)
   { // 1 para frente
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
+    digitalWrite(MotorDC::IN1, HIGH);
+    digitalWrite(MotorDC::IN2, LOW);
   }
-  else if (dir == -1)
+  else if (MotorDC::dir == -1)
   { // -1 para trás
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, HIGH);
+    digitalWrite(MotorDC::IN1, LOW);
+    digitalWrite(MotorDC::IN2, HIGH);
   }
   else
   { // 0 para parar
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, LOW);
+    digitalWrite(MotorDC::IN1, LOW);
+    digitalWrite(MotorDC::IN2, LOW);
   }
 }
 
 // Função para ler o encoder do motor
 void MotorDC::ler_encoder()
 {
-  double b = digitalRead(ENCB);
+  double b = digitalRead(MotorDC::ENCB);
   if (b > 0)
   { // Se ler pulso positivo do encoder
     posi++;
