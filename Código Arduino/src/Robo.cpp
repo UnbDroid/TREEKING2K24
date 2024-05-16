@@ -69,6 +69,7 @@ void Robo::virar_robo(int angulo)
             int velocidade_rpm = 80 + (abs(giro_volante) * 40 / 35); // Velocidade de referência
             Robo::andar_reto(velocidade_rpm);
     }
+    volante.resetar_volante();
 }
 
 // Função para retornar a posição x do cone
@@ -99,4 +100,5 @@ void Robo::alinhar_com_cone() {
         volante.virar_volante(giro_volante);
         Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
     }
+    volante.resetar_volante();
 }

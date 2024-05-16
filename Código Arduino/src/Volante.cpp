@@ -8,10 +8,16 @@ Volante::Volante(const int SERVO)
 {
     this->SERVO = SERVO;
     volante.attach(SERVO);
+    angulo_inicial = volante.read();
+}
+
+void Volante::resetar_volante()
+{
+    volante.write(angulo_inicial);
 }
 
 void Volante::virar_volante(int angulo)
 {
-    volante.write(angulo);
+    volante.write(angulo_inicial + angulo);
     //TODO: Verificar o ângulo máximo que o servo pode virar
 }
