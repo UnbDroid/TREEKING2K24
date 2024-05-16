@@ -14,8 +14,6 @@ class Robo {
     public:
         Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio); // Construtor da classe Robo
 
-        float cone_posicao_x = 0.0; // Posição do cone no eixo x
-        float cone_posicao_y = 0.0; // Posição do cone no eixo y
 
         void ler_visao();
         void andar_reto(int velocidade_rpm);
@@ -35,11 +33,11 @@ class Robo {
 
         //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private:
+        float cone_posicao_x = 0.0; // Posição do cone no eixo x
+        float cone_posicao_y = 0.0; // Posição do cone no eixo y
         float angulo_atual_x = 0.0; // Ângulo atual do robô no eixo x
         float angulo_atual_y = 0.0; // Ângulo atual do robô no eixo y
         float angulo_atual_z = 0.0; // Ângulo atual do robô no eixo z
-        float posicao_cone_x = 0.0; // Posição do cone no eixo x
-        float posicao_cone_y = 0.0; // Posição do cone no eixo y
 };
 
 

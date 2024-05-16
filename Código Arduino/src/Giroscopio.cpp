@@ -7,7 +7,10 @@
 //* e fornecer os valores de ângulos de roll(x), pitch(y) e yaw(z)
 
 Giroscopio::Giroscopio() { // Construtor da classe Giroscopio
+    delayMicroseconds(1);    
+}
 
+void Giroscopio::ligar_mpu() {
     // Início da comunicação com o MPU9250 {
 
     while (!Serial) {} // Aguarda a comunicação serial ser estabelecida
@@ -29,8 +32,9 @@ Giroscopio::Giroscopio() { // Construtor da classe Giroscopio
         while(1) {}
     }
 
+    Serial.println("Configurado");
+
     // }
-    
 }
 
 float Giroscopio::get_x()

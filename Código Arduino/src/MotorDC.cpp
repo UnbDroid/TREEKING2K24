@@ -21,6 +21,18 @@ MotorDC::MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, c
   pinMode(IN2, OUTPUT);
 }
 
+MotorDC* global_motor_dc;
+
+void MotorDC::ligar_encoder_isr()
+{
+  global_motor_dc->ler_encoder();
+}
+
+void MotorDC::ligar_encoder()
+{
+  attachInterrupt(digitalPinToInterrupt(ENCA), MotorDC::ligar_encoder_isr, RISING);
+}
+
 // Função para ligar o motor e definir a direção e a velocidade
 void MotorDC::ligar_motor(int dir, int pwmVal)
 {
@@ -55,6 +67,7 @@ void MotorDC::ler_encoder()
   { // Se ler pulso negativo do encoder
     posi--;
   }
+  
 }
 
 void MotorDC::andar_reto(int velocidade_rpm)

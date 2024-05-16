@@ -14,9 +14,9 @@
 // Declarações dos objetos -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 MotorDC motor_dc(ENCA, ENCB, PWM, IN1, IN2);
-Volante volante(SERVO);
-Giroscopio giroscopio;
-Robo robo(motor_dc, volante, giroscopio);
+//Volante volante(SERVO);
+//Giroscopio giroscopio;
+//Robo robo(motor_dc, volante, giroscopio);
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -35,14 +35,6 @@ void setup() {
   // Início da comunicação serial
   Serial.begin(9600);
 
-  // Declaração de pinos do encoder do motor {
-    
-    //attachInterrupt(digitalPinToInterrupt(ENCA), [](){
-    //  motor_dc.ler_encoder();
-    //}, RISING);
-
-  //}
-
 }
 
 void loop() {
@@ -52,7 +44,7 @@ void loop() {
   dt = (T - prevT)/1000.0; // Usa a diferença em um segundo
   prevT = T;
 
-  // Ler encoder do motor
-  robo.motor.ler_encoder();
+  motor_dc.ler_encoder();
+  motor_dc.ligar_motor(1, 255);
 
 }

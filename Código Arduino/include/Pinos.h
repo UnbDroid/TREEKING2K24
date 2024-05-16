@@ -5,8 +5,8 @@
 
 // Declarações do motor -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define ENCA 3 // Cabo amarelo
-#define ENCB 8 // Cabo branco
+#define ENCA 2 // Cabo amarelo
+#define ENCB 3 // Cabo branco
 #define PWM 5 
 #define IN1 6
 #define IN2 7

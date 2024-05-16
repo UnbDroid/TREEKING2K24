@@ -11,13 +11,14 @@
 class Giroscopio{
     public:
         Giroscopio(); // Construtor da classe Giroscopio
+        void ligar_mpu(); // Função para ligar o sensor
         float get_x(); // Função para obter o valor de roll(x) do sensor
         float get_y(); // Função para obter o valor de pitch(y) do sensor
         float get_z(); // Função para obter o valor de yaw(z) do sensor
     private:
         bfs::Mpu9250 imu; // Criação do objeto imu da classe Mpu9250
         int status; // Status do sensor
-        const double deg_to_rad = (180/3.14159265358979); // Fator de conversão de graus para radianos (caso precisemos) (vulgo pi para os mais íntimos)
+        const double deg_to_rad = (180/3.1415); // Fator de conversão de graus para radianos (caso precisemos) (vulgo pi para os mais íntimos)
         // Parâmetros do filtro (constantes de controle dos valores de movimento dos eixos)
         const float alpha_x = 0.45;
         const float alpha_y = 0.45;

@@ -15,7 +15,8 @@
 Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
 : motor(motor), volante(volante), giroscopio(giroscopio)
 {
-    Serial.println("Robo construido");
+    giroscopio.ligar_mpu();
+    motor.ligar_encoder();
 }
 
 //Função responsável por ler e armazenar a posição do cone na visão recebida pela comunicação serial
