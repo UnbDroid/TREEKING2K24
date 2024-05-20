@@ -15,8 +15,14 @@
 Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
 : motor(motor), volante(volante), giroscopio(giroscopio)
 {
+    delay(1);
+}
+
+// Função para ligar todos os componentes do robô
+void Robo::ligar_robo() {
     giroscopio.ligar_mpu();
     motor.ligar_encoder();
+    volante.inicializar_volante();
 }
 
 //Função responsável por ler e armazenar a posição do cone na visão recebida pela comunicação serial
@@ -25,10 +31,10 @@ void Robo::ler_visao() {
     String input = Serial.readStringUntil('\n');
     int commaIndex = input.indexOf(',');
     if (commaIndex != -1) {
-      String float1Str = input.substring(0, commaIndex);
-      String float2Str = input.substring(commaIndex + 1);
-      cone_posicao_x = float1Str.toFloat(); // cone_posicao_x recebe o valor da posição x do cone
-      cone_posicao_y = float2Str.toFloat(); // cone_posicao_y recebe o valor da posição y do cone
+        String float1Str = input.substring(0, commaIndex);
+        String float2Str = input.substring(commaIndex + 1);
+        cone_posicao_x = float1Str.toFloat(); // cone_posicao_x recebe o valor da posição x do cone
+        cone_posicao_y = float2Str.toFloat(); // cone_posicao_y recebe o valor da posição y do cone
     }
   }
 }

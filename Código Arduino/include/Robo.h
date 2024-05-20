@@ -14,7 +14,7 @@ class Robo {
     public:
         Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio); // Construtor da classe Robo
 
-
+        void ligar_robo(); // Função para ligar todos os componentes do robô
         void ler_visao();
         void andar_reto(int velocidade_rpm);
         void andar_reto_cm(int distancia_cm, int velocidade_rpm = 100);

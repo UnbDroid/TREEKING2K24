@@ -67,7 +67,7 @@ void MotorDC::ler_encoder()
   { // Se ler pulso negativo do encoder
     posi--;
   }
-  
+  Serial.println(posi);
 }
 
 void MotorDC::andar_reto(int velocidade_rpm)
@@ -76,6 +76,8 @@ void MotorDC::andar_reto(int velocidade_rpm)
   //! Ainda não testada
   //!
   // TODO: Testar a função
+
+  ler_encoder();
 
   rpm_referencia = velocidade_rpm; // Velocidade de referência
 
@@ -120,7 +122,7 @@ void MotorDC::andar_reto(int velocidade_rpm)
     dir = 0;
   }
 
-  MotorDC::ligar_motor(dir, pwmVal);
+  ligar_motor(dir, pwmVal);
 }
 
 void MotorDC::andar_reto_cm(int distancia_cm, int velocidade_rpm)
