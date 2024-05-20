@@ -14,24 +14,25 @@ int Volante::return_angulo_inicial()
     return s.read();
 }
 
-void Volante::set_angulo_inicial(int angulo)
+void Volante::set_angulo_base(int angulo)
 {
-    angulo_inicial = angulo;
+    angulo_base = angulo;
 }
 
 void Volante::inicializar_volante()
 {
     s.attach(SERVO);
-    set_angulo_inicial(return_angulo_inicial());
+    set_angulo_base(return_angulo_inicial());
 }
 
 void Volante::resetar_volante()
 {
-    s.write(angulo_inicial);
+    s.write(angulo_base);
 }
 
 void Volante::virar_volante(int angulo)
 {
+    int angulo_inicial = return_angulo_inicial();
     int angulo_final = angulo_inicial + angulo;
     s.write(angulo_final);
     //TODO: Verificar o ângulo máximo que o servo pode virar

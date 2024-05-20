@@ -11,14 +11,14 @@ class Volante{
     public:
         Volante(const int SERVO);
         int return_angulo_inicial();
-        void set_angulo_inicial(int angulo);
+        void set_angulo_base(int angulo);
         void inicializar_volante(); // Função para inicializar o volante
         void resetar_volante(); // Função para resetar o volante para a posição inicial
         void virar_volante(int angulo); // Função para virar o volante para um ângulo específico
     private:
         int SERVO;
         Servo s;
-        int angulo_inicial = 0;
+        int angulo_base = 0;
 };
 
 #endif
