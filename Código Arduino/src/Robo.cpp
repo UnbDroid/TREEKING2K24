@@ -15,28 +15,29 @@
 Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
 : motor(motor), volante(volante), giroscopio(giroscopio)
 {
-    delay(1);
+
 }
 
 // Função para ligar todos os componentes do robô
 void Robo::ligar_robo() {
-    giroscopio.ligar_mpu();
-    motor.ligar_encoder();
+    // giroscopio.ligar_mpu();
+    // motor.ligar_encoder();
     volante.inicializar_volante();
 }
 
 //Função responsável por ler e armazenar a posição do cone na visão recebida pela comunicação serial
 void Robo::ler_visao() {
+    Serial.println("Lendo visão");
     if (Serial.available() > 0) {
-    String input = Serial.readStringUntil('\n');
-    int commaIndex = input.indexOf(',');
-    if (commaIndex != -1) {
-        String float1Str = input.substring(0, commaIndex);
-        String float2Str = input.substring(commaIndex + 1);
-        cone_posicao_x = float1Str.toFloat(); // cone_posicao_x recebe o valor da posição x do cone
-        cone_posicao_y = float2Str.toFloat(); // cone_posicao_y recebe o valor da posição y do cone
+        String input = Serial.readStringUntil('\n');
+        int commaIndex = input.indexOf(',');
+        if (commaIndex != -1) {
+            String float1Str = input.substring(0, commaIndex);
+            String float2Str = input.substring(commaIndex + 1);
+            cone_posicao_x = float1Str.toFloat(); // cone_posicao_x recebe o valor da posição x do cone
+            cone_posicao_y = float2Str.toFloat(); // cone_posicao_y recebe o valor da posição y do cone
+        }
     }
-  }
 }
 
 // Função para fazer o robô andar reto indefinidamente
@@ -71,7 +72,7 @@ void Robo::virar_robo(int angulo)
             } else {
                 giro_volante = static_cast<int>((angulo_final - giroscopio.get_z()) > 10 || (angulo_final - giroscopio.get_z()) < -10 ? (angulo_final - giroscopio.get_z()) : 10);
             }
-            volante.virar_volante(giro_volante);
+            volante.virar_volante_especifico(giro_volante);
             int velocidade_rpm = 80 + (abs(giro_volante) * 40 / 35); // Velocidade de referência
             Robo::andar_reto(velocidade_rpm);
     }
@@ -90,21 +91,29 @@ float Robo::retornar_posicao_y_do_cone() {
     return cone_posicao_y;
 }
 
+void Robo::testar_visao() {
+    Robo::ler_visao();
+    if (cone_posicao_x > 0.05) {
+        digitalWrite(7, HIGH);
+    } else {
+        digitalWrite(7, LOW);
+    }
+}
+
 // Função para fazer o robô alinhar com um cone (faz o mesmo que virar_robo, mas usando a visão do robô como referência para alinhar com o cone)
 void Robo::alinhar_com_cone() {
     Robo::ler_visao();
     int giro_volante = 0;
-    while (cone_posicao_x > 0.05 or cone_posicao_x < 0.05) { //! 0.05 é a tolerância, mas pode e deve ser ajustada
-        Robo::ler_visao();
-        if (cone_posicao_x > 0.10) {  // Se o cone estiver à direita
+    while (retornar_posicao_x_do_cone() > 0.05 or retornar_posicao_x_do_cone() < 0.05) { //! 0.05 é a tolerância, mas pode e deve ser ajustada
+        if (retornar_posicao_x_do_cone() > 0.10) {  // Se o cone estiver à direita
             giro_volante = -35;
-        } else if (cone_posicao_x < -0.10) { // Se o cone estiver à esquerda
+        } else if (retornar_posicao_x_do_cone() < -0.10) { // Se o cone estiver à esquerda
             giro_volante = 35;
         } else {
             giro_volante = static_cast<int>(angulo_atual_x*3.5);
         }
-        volante.virar_volante(giro_volante);
-        Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
+        volante.virar_volante_especifico(giro_volante);
+        //Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
     }
     volante.resetar_volante();
 }

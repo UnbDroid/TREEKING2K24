@@ -21,6 +21,7 @@ class Robo {
         void virar_robo(int angulo);
         float retornar_posicao_x_do_cone();
         float retornar_posicao_y_do_cone();
+        void testar_visao();
         void alinhar_com_cone();
 
         //! Pode ser que esses objetos deem erro por causa do construtor

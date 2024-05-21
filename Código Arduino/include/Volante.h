@@ -14,7 +14,8 @@ class Volante{
         void set_angulo_base(int angulo);
         void inicializar_volante(); // Função para inicializar o volante
         void resetar_volante(); // Função para resetar o volante para a posição inicial
-        void virar_volante(int angulo); // Função para virar o volante para um ângulo específico
+        void virar_volante(int angulo); // Função para virar o volante em ângulos
+        void virar_volante_especifico(int angulo); // Função para virar o volante para a esquerda
     private:
         int SERVO;
         Servo s;

@@ -7,7 +7,7 @@
 //* e fornecer os valores de ângulos de roll(x), pitch(y) e yaw(z)
 
 Giroscopio::Giroscopio() { // Construtor da classe Giroscopio
-    delayMicroseconds(1);    
+
 }
 
 void Giroscopio::ligar_mpu() {
