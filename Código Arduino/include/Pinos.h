@@ -7,7 +7,7 @@
 
 #define ENCA 2 // Cabo amarelo
 #define ENCB 3 // Cabo branco
-#define PWM 5 
+#define PWM 5
 #define IN1 6
 #define IN2 7
 
@@ -15,8 +15,8 @@
 
 // Declarações do MPU9250 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define SDA 20
-#define SCL 21
+#define SDA 0 //20
+#define SCL 1 //21
 //! Provavelmente não será necessário, mas é bom ter esses valores aqui para referência
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

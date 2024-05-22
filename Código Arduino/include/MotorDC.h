@@ -2,6 +2,7 @@
 #define MotorDC_h
 
 #include "Arduino.h"
+#include "Tempo.h"
 
 //* Este arquivo contém a declaração da classe MotorDC, que é responsável por
 //* controlar o motor DC e fornecer os valores de velocidade e direção de giro do motor
@@ -10,9 +11,10 @@ class MotorDC{
     public:
         MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, const int IN2); // Construtor da classe MotorDC
 
-        static void ligar_encoder_isr();
         void ligar_encoder();
         void ligar_motor(int dir, int pwmVal);
+        static void ler_encoder_static();
+        static MotorDC* instance;
         void ler_encoder();
         void andar_reto(int velocidade_rpm);
         void andar_reto_cm(int distancia_cm, int velocidade_rpm);
@@ -23,7 +25,6 @@ class MotorDC{
         int PWM;
         int IN1;
         int IN2;
-        
         
         volatile double posi; // posição do motor em radianos
         double voltas = 0; // número de voltas do motor

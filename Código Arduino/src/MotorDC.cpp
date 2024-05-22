@@ -6,6 +6,8 @@
 //* Esse arquivo contém a implementação da classe MotorDC, que é responsável por controlar o motor DC do robô
 //* e fornecer os valores de velocidade e direção de giro do motor
 
+MotorDC* MotorDC::instance = nullptr;
+
 // Construtor da classe MotorDC
 MotorDC::MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, const int IN2)
 {
@@ -19,18 +21,12 @@ MotorDC::MotorDC(const int ENCA, const int ENCB, const int PWM, const int IN1, c
   pinMode(PWM, OUTPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
+  instance = this;
 }
 
-MotorDC* global_motor_dc;
-
-void MotorDC::ligar_encoder_isr()
+void MotorDC::ligar_encoder() 
 {
-  global_motor_dc->ler_encoder();
-}
-
-void MotorDC::ligar_encoder()
-{
-  attachInterrupt(digitalPinToInterrupt(ENCA), MotorDC::ligar_encoder_isr, RISING);
+    attachInterrupt(digitalPinToInterrupt(ENCA), MotorDC::ler_encoder_static, RISING);
 }
 
 // Função para ligar o motor e definir a direção e a velocidade
@@ -55,6 +51,11 @@ void MotorDC::ligar_motor(int dir, int pwmVal)
   }
 }
 
+void MotorDC::ler_encoder_static()
+{
+  instance->ler_encoder();
+}
+
 // Função para ler o encoder do motor
 void MotorDC::ler_encoder()
 {
@@ -67,7 +68,6 @@ void MotorDC::ler_encoder()
   { // Se ler pulso negativo do encoder
     posi--;
   }
-  Serial.println(posi);
 }
 
 void MotorDC::andar_reto(int velocidade_rpm)
@@ -77,13 +77,13 @@ void MotorDC::andar_reto(int velocidade_rpm)
   //!
   // TODO: Testar a função
 
-  ler_encoder();
+  attachInterrupt(digitalPinToInterrupt(ENCA), MotorDC::ler_encoder_static, RISING);
 
   rpm_referencia = velocidade_rpm; // Velocidade de referência
 
   double posi_atual = 0;      // posição atual do encoder
   noInterrupts();             // desabilita interrupções
-  posi_atual = posi; // atualiza a posição atual do encoder
+  posi_atual = posi;          // atualiza a posição atual do encoder
   interrupts();               // reabilita interrupções
 
   voltas_anterior = voltas; // atualiza o número de voltas anterior
@@ -123,6 +123,8 @@ void MotorDC::andar_reto(int velocidade_rpm)
   }
 
   ligar_motor(dir, pwmVal);
+
+  eprev = e;
 }
 
 void MotorDC::andar_reto_cm(int distancia_cm, int velocidade_rpm)
@@ -138,6 +140,7 @@ void MotorDC::andar_reto_cm(int distancia_cm, int velocidade_rpm)
   {
     while ((posi / encoder_volta) - voltas_inicio < distancia_cm)
     {
+      atualizar_tempo();
       andar_reto(velocidade_rpm);
     }
   }
@@ -145,6 +148,7 @@ void MotorDC::andar_reto_cm(int distancia_cm, int velocidade_rpm)
   {
     while ((posi / encoder_volta) - voltas_inicio > distancia_cm)
     {
+      atualizar_tempo();
       andar_reto(velocidade_rpm);
     }
   }

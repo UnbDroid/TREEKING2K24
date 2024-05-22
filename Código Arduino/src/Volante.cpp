@@ -11,7 +11,7 @@ Volante::Volante(const int SERVO)
 
 int Volante::return_angulo_inicial()
 {
-    return s.read();
+    return 90;
 }
 
 void Volante::set_angulo_base(int angulo)
@@ -22,6 +22,7 @@ void Volante::set_angulo_base(int angulo)
 void Volante::inicializar_volante()
 {
     s.attach(SERVO);
+    s.write(return_angulo_inicial());
     set_angulo_base(return_angulo_inicial());
 }
 

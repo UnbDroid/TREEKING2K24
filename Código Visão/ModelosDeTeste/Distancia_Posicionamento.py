@@ -19,7 +19,7 @@ known_object_width = (
     10  # Substitua com a largura real do objeto em centímetros (ou outra unidade)
 )
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 # Carregue o modelo YOLO
 model = YOLO("runs/detect/train21/weights/best.pt")
@@ -41,7 +41,7 @@ while True:
             results = model.track(
                 img,
                 persist=True,
-                conf=0.35,
+                conf=0.75,
                 imgsz=640,
                 iou=0.3,
                 max_det=2,

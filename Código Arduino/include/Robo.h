@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "Pinos.h"
 #include "MotorDC.h"
+#include "Tempo.h"
 #include "Volante.h"
 #include "Giroscopio.h"
 

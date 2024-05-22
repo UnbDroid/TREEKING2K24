@@ -20,14 +20,13 @@ Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
 
 // Função para ligar todos os componentes do robô
 void Robo::ligar_robo() {
-    // giroscopio.ligar_mpu();
+    giroscopio.ligar_mpu();
     // motor.ligar_encoder();
     volante.inicializar_volante();
 }
 
 //Função responsável por ler e armazenar a posição do cone na visão recebida pela comunicação serial
 void Robo::ler_visao() {
-    Serial.println("Lendo visão");
     if (Serial.available() > 0) {
         String input = Serial.readStringUntil('\n');
         int commaIndex = input.indexOf(',');
@@ -64,17 +63,18 @@ void Robo::virar_robo(int angulo)
     float angulo_final = valor_angulacao_inicial + angulo;
 
     // Enquanto o robô não atingir o ângulo desejado, ele vira o volante e anda pra frente
-    while (static_cast<int>(giroscopio.get_z()) != static_cast<int>(angulo_final)) { //! Supostamente esse static_cast é pra converter de float pra int, mas de novo, eu tô confiando 100% no Copilot
-            if (angulo_final - giroscopio.get_z() > 35) {
-                giro_volante = 35;
-            } else if (angulo_final - giroscopio.get_z() < (-35)) {
-                giro_volante = -35;
-            } else {
-                giro_volante = static_cast<int>((angulo_final - giroscopio.get_z()) > 10 || (angulo_final - giroscopio.get_z()) < -10 ? (angulo_final - giroscopio.get_z()) : 10);
-            }
-            volante.virar_volante_especifico(giro_volante);
-            int velocidade_rpm = 80 + (abs(giro_volante) * 40 / 35); // Velocidade de referência
-            Robo::andar_reto(velocidade_rpm);
+    while (giroscopio.get_z() > (angulo_final + 3) or giroscopio.get_z() < (angulo_final - 3)) { //! Supostamente esse static_cast é pra converter de float pra int, mas de novo, eu tô confiando 100% no Copilot
+        atualizar_tempo();
+        float angulo_atual = giroscopio.get_z();
+        Serial.println(angulo_atual);
+        if ((angulo_final - angulo_atual) > 0) {
+            giro_volante = 35;
+        } else if ((angulo_final - angulo_atual) < 0) {
+            giro_volante = -35;
+        }
+        volante.virar_volante_especifico(giro_volante);
+        int velocidade_rpm = 80 + (abs(giro_volante) * 40 / 35); // Velocidade de referência
+        // Robo::andar_reto(velocidade_rpm);
     }
     volante.resetar_volante();
 }
@@ -104,16 +104,29 @@ void Robo::testar_visao() {
 void Robo::alinhar_com_cone() {
     Robo::ler_visao();
     int giro_volante = 0;
+    atualizar_tempo();
     while (retornar_posicao_x_do_cone() > 0.05 or retornar_posicao_x_do_cone() < 0.05) { //! 0.05 é a tolerância, mas pode e deve ser ajustada
-        if (retornar_posicao_x_do_cone() > 0.10) {  // Se o cone estiver à direita
+        float posicao_x = retornar_posicao_x_do_cone();
+        atualizar_tempo();
+        if (posicao_x > 0.20) {  // Se o cone estiver à direita
             giro_volante = -35;
-        } else if (retornar_posicao_x_do_cone() < -0.10) { // Se o cone estiver à esquerda
+        } else if (posicao_x < -0.20) { // Se o cone estiver à esquerda
             giro_volante = 35;
-        } else {
-            giro_volante = static_cast<int>(angulo_atual_x*3.5);
+        } else if (posicao_x > 0.15) {
+            giro_volante = -25;
+        } else if (posicao_x < -0.15) {
+            giro_volante = 25;
+        } else if (posicao_x > 0.10) {
+            giro_volante = -15;
+        } else if (posicao_x < -0.10) {
+            giro_volante = 15;
+        } else if (posicao_x > 0.05) {
+            giro_volante = -10;
+        } else if (posicao_x < -0.05) {
+            giro_volante = 10;
         }
         volante.virar_volante_especifico(giro_volante);
-        //Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
+        // Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
     }
     volante.resetar_volante();
 }
