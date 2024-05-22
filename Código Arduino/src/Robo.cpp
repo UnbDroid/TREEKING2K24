@@ -21,7 +21,7 @@ Robo::Robo(MotorDC& motor, Volante& volante, Giroscopio& giroscopio)
 // Função para ligar todos os componentes do robô
 void Robo::ligar_robo() {
     giroscopio.ligar_mpu();
-    // motor.ligar_encoder();
+    motor.ligar_encoder();
     volante.inicializar_volante();
 }
 
@@ -66,15 +66,26 @@ void Robo::virar_robo(int angulo)
     while (giroscopio.get_z() > (angulo_final + 3) or giroscopio.get_z() < (angulo_final - 3)) { //! Supostamente esse static_cast é pra converter de float pra int, mas de novo, eu tô confiando 100% no Copilot
         atualizar_tempo();
         float angulo_atual = giroscopio.get_z();
-        Serial.println(angulo_atual);
         if ((angulo_final - angulo_atual) > 0) {
-            giro_volante = 35;
+            if ((angulo_final - angulo_atual) > 35) {
+                giro_volante = 35;
+            } else if ((angulo_final - angulo_atual) > 10) {
+                giro_volante = static_cast<int>(round((angulo_final - angulo_atual)));
+            } else {
+                giro_volante = 10;
+            }
         } else if ((angulo_final - angulo_atual) < 0) {
-            giro_volante = -35;
+            if ((angulo_final - angulo_atual) < -35) {
+                giro_volante = -35;
+            } else if ((angulo_final - angulo_atual) < -10) {
+                giro_volante = static_cast<int>(round((angulo_final - angulo_atual)));
+            } else {
+                giro_volante = -10;
+            }
         }
         volante.virar_volante_especifico(giro_volante);
         int velocidade_rpm = 80 + (abs(giro_volante) * 40 / 35); // Velocidade de referência
-        // Robo::andar_reto(velocidade_rpm);
+        Robo::andar_reto(velocidade_rpm);
     }
     volante.resetar_volante();
 }
@@ -126,7 +137,7 @@ void Robo::alinhar_com_cone() {
             giro_volante = 10;
         }
         volante.virar_volante_especifico(giro_volante);
-        // Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
+        Robo::andar_reto(80 + (abs(giro_volante) * 40 / 35));
     }
     volante.resetar_volante();
 }
