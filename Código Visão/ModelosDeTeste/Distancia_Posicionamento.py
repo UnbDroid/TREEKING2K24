@@ -19,7 +19,7 @@ known_object_width = (
     10  # Substitua com a largura real do objeto em centímetros (ou outra unidade)
 )
 
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 
 # Carregue o modelo YOLO
 model = YOLO("runs/detect/train21/weights/best.pt")
