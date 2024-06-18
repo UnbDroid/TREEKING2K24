@@ -8,10 +8,10 @@ import sys
 # * Explicação do código, aqui vamos identificar um cone, com o modelo treinado.
 # * Vanos identificar a posição do objeto em relação ao centro da tela.
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 arduino = serial.Serial('/dev/ttyACM0',115200)
 # Carregue o modelo YOLO
-model = YOLO("./V1.pt")
+model = YOLO("/home/caldo/Documents/Droid/TREEKING2K24/ModelosDeTeste/V1.pt")
 
 # Dicionário para rastrear IDs e histórico de posições
 track_history = defaultdict(lambda: [])
@@ -50,9 +50,9 @@ while True:
                 try:
                     # Obter caixas
                     boxes = result.boxes.xywh.cpu()
-
+                    track_id=[1,2,3,4,5]
                     # Traçar rastreamento
-                    for box, track_id in zip(boxes):
+                    for box, track_id in zip(boxes,track_id):
                         x, y, w, h = box
 
                         # Calcular a posição do objeto em relação ao centro da tela
@@ -75,7 +75,7 @@ while True:
                     sys.stdout.flush()
 
     # Exibir imagem com resultados
-    #cv2.imshow("Tela", img)
+    cv2.imshow("Tela", img)
 
     # Tecla 'q' para sair
     k = cv2.waitKey(1)
@@ -84,6 +84,6 @@ while True:
 
 # Liberar recursos
 cap.release()
-#cv2.destroyAllWindows()
+# cv2.destroyAllWindows()
 arduino.close()
 print("Desligando...")
