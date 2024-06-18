@@ -2,23 +2,16 @@ import cv2
 from ultralytics import YOLO
 from collections import defaultdict
 import numpy as np
-
+import serial
+import sys
 
 # * Explicação do código, aqui vamos identificar um cone, com o modelo treinado.
-# * Onde retornará a posição do objeto em relação ao centro da tela e a distância estimada do objeto.
+# * Vanos identificar a posição do objeto em relação ao centro da tela.
 
-# ? Daqui até ...
-# Parâmetros da câmera (preencha com os valores da sua câmera)
-# focal_length = 640  # Substitua com a distância focal da sua câmera (em pixels)
-# known_object_width = (
-#     10  # Substitua com a largura real do objeto em centímetros (ou outra unidade)
-# )
-# ? ... aqui é o cálculo da distância até o objeto
-
-cap = cv2.VideoCapture(1)
-
+cap = cv2.VideoCapture(0)
+arduino = serial.Serial('/dev/ttyACM0',115200)
 # Carregue o modelo YOLO
-model = YOLO("Versions/V1/best.pt")
+model = YOLO("./V1.pt")
 
 # Dicionário para rastrear IDs e histórico de posições
 track_history = defaultdict(lambda: [])
@@ -28,11 +21,7 @@ seguir = True
 deixar_rastro = True
 
 while True:
-    # ?Aqui : Capture a imagem do vídeo
-
     success, img = cap.read()
-
-    # ? ... Até aqui+
     if success:
         # Processamento com YOLO
         if seguir:
@@ -54,7 +43,7 @@ while True:
         # Processamento dos resultados
         for result in results:
             # Visualização dos resultados na imagem
-            img = result.plot()
+            #img = result.plot()
 
             # Rastreamento e estimativa de distância
             if seguir and deixar_rastro:
@@ -65,14 +54,6 @@ while True:
                     # Traçar rastreamento
                     for box, track_id in zip(boxes):
                         x, y, w, h = box
-
-                        # ? Daqui até ...
-
-                        # # Estimar distância usando largura do objeto e razão de triângulos similares
-                        # distance = (known_object_width * focal_length) / w
-                        # print(f"Distância estimada para o objeto: {distance:.2f} cm")
-
-                        # ? ... aqui é o cálculo da distância até o objeto
 
                         # Calcular a posição do objeto em relação ao centro da tela
                         center_x = (x + w / 2) / img.shape[1]
@@ -87,15 +68,14 @@ while True:
                         print(
                             f"Posição do objeto em relação ao centro da tela: (x={offset_x:.2f}, y={offset_y:.2f})"
                         )
-
+                    sys.stdout.flush()
+                    arduino.write(f'{offset_x:.2f},{offset_y:.2f}\n'.encode('utf-8'))
                 except Exception as e:
                     print(f"Erro no rastreamento: {e}")
+                    sys.stdout.flush()
 
-    # ? Aqui exibe imagens como resultado...
     # Exibir imagem com resultados
-    cv2.imshow("Tela", img)
-
-    # ? ... até aqui
+    #cv2.imshow("Tela", img)
 
     # Tecla 'q' para sair
     k = cv2.waitKey(1)
@@ -104,5 +84,6 @@ while True:
 
 # Liberar recursos
 cap.release()
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()
+arduino.close()
 print("Desligando...")
