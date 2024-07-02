@@ -53,8 +53,8 @@ void ligar_robo() {
   volante.setup();
   motor_dc_esquerdo.congirurar(2100, 1.8, 1.3, 0);
   motor_dc_direito.congirurar(2100, 3.0, 2.0, 0);
-  attachInterrupt(digitalPinToInterrupt(ENCA_Esquerdo), interrupcao_encoder_esquerdo, RISING);
-  attachInterrupt(digitalPinToInterrupt(ENCA_Direito), interrupcao_encoder_direito, RISING);
+  // attachInterrupt(digitalPinToInterrupt(ENCA_Esquerdo), interrupcao_encoder_esquerdo, RISING);
+  // attachInterrupt(digitalPinToInterrupt(ENCA_Direito), interrupcao_encoder_direito, RISING);
 }
 
 void setup() { 
@@ -75,8 +75,9 @@ void setup() {
 
   //* Caminho do robô ------------------------------------------
   
-    robo.andar_reto_cm(550);
-    // robo.alinhar_com_cone(60);
+    robo.andar_reto_cm(4500);
+    delay(2000);
+    robo.alinhar_com_cone(60);
     // robo.virar_robo(tras, 120);
     // robo.alinhar_com_cone(60);
 
