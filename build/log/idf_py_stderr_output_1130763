@@ -1,0 +1,9 @@
+CMake Error at /home/caldo/esp/esp-idf/tools/cmake/component.cmake:317 (message):
+  Include directory
+  '/home/caldo/Projetos/TREKKING-2024-2025/main/__component_add_include_dirs'
+  is not a directory.
+Call Stack (most recent call first):
+  /home/caldo/esp/esp-idf/tools/cmake/component.cmake:492 (__component_add_include_dirs)
+  main/CMakeLists.txt:1 (idf_component_register)
+
+

@@ -1,6 +1,6 @@
 /* Automatically generated file; DO NOT EDIT */
 /* Espressif IoT Development Framework Linker Script */
-/* Generated from: /home/caldo/Projetos/project-name/build/esp-idf/esp_system/ld/sections.ld.in */
+/* Generated from: /home/caldo/Projetos/TREKKING-2024-2025/build/esp-idf/esp_system/ld/sections.ld.in */
 
 /*
  * SPDX-FileCopyrightText: 2021 Espressif Systems (Shanghai) CO LTD
