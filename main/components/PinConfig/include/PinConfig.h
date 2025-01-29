@@ -1,1 +1,22 @@
-void func(void);
+#ifndef __PIN_CONFIG_H__
+#define __PIN_CONFIG_H__
+
+#include "driver/gpio.h"
+
+#define L_EN_ESQUERDO_FRENTE
+#define L_PWM_ESQUERDO_FRENTE
+#define R_PWM_ESQURDO_FRENTE
+
+#define L_EN_ESQUERDO_TRAS
+#define L_PWM_ESQUERDO_TRAS
+#define R_PWM_ESQURDO_TRAS
+
+#define L_EN_DIREITO_FRENTE
+#define L_PWM_DIREITO_FRENTE
+#define R_PWM_DIREITO_FRENTE
+
+#define L_EN_DIREITO_TRAS
+#define L_PWM_DIREITO_TRAS
+#define R_PWM_DIREITO_TRAS
+
+#endif

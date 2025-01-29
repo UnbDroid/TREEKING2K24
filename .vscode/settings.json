@@ -2,9 +2,9 @@
     "C_Cpp.intelliSenseEngine": "default",
     "idf.espIdfPath": "/home/caldo/esp/v5.4/esp-idf",
     "idf.openOcdConfigs": [
-        "board/esp32-bridge.cfg"
+        "interface/ftdi/esp32_devkitj_v1.cfg",
+        "target/esp32s2.cfg"
     ],
-    "idf.port": "/dev/ttyUSB0",
-    "idf.toolsPath": "/home/caldo/.espressif",
-    "idf.flashType": "UART"
+    "idf.port": "/dev/ttyS4",
+    "idf.toolsPath": "/home/caldo/.espressif"
 }
