@@ -1,3 +1,10 @@
 {
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPath": "/home/caldo/esp/v5.4/esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32-bridge.cfg"
+    ],
+    "idf.port": "/dev/ttyUSB0",
+    "idf.toolsPath": "/home/caldo/.espressif",
+    "idf.flashType": "UART"
 }
