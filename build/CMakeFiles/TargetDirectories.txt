@@ -10,7 +10,7 @@
 /home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/flash.dir
 /home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/encrypted-flash.dir
 /home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/_project_elf_src.dir
-/home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/TREKKING-2024-2025.elf.dir
+/home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/project-name.elf.dir
 /home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/size.dir
 /home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/size-files.dir
 /home/caldo/Projetos/TREKKING-2024-2025/build/CMakeFiles/size-components.dir
