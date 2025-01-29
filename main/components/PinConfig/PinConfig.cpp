@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "PinConfig.h"
 
-void func(void)
+void pin_setup(void)
 {
-    
+    gpio_config(&config);
 }
