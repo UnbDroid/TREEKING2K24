@@ -3,7 +3,7 @@
 #include "freertos/task.h"
 #include "esp_system.h"
 #include "esp_spi_flash.h"
-#include "PinConfig.h"
+#include <PinConfig/include/PinConfig.h>
 
 
 extern "C" void app_main(void)

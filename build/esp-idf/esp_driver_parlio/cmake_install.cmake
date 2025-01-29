@@ -1,4 +1,4 @@
-# Install script for directory: /home/caldo/esp/v5.4/esp-idf/components/esp_driver_parlio
+# Install script for directory: /home/caldo/esp/esp-idf/components/esp_driver_parlio
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

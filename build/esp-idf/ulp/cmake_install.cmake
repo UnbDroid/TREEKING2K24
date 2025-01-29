@@ -1,4 +1,4 @@
-# Install script for directory: /home/caldo/esp/v5.4/esp-idf/components/ulp
+# Install script for directory: /home/caldo/esp/esp-idf/components/ulp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
