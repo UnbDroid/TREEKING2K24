@@ -10,18 +10,18 @@ if(NOT EXISTS "/home/caldo/esp/v5.4/esp-idf/components/bootloader/subproject")
   file(MAKE_DIRECTORY "/home/caldo/esp/v5.4/esp-idf/components/bootloader/subproject")
 endif()
 file(MAKE_DIRECTORY
-  "/home/caldo/project-name/build/bootloader"
-  "/home/caldo/project-name/build/bootloader-prefix"
-  "/home/caldo/project-name/build/bootloader-prefix/tmp"
-  "/home/caldo/project-name/build/bootloader-prefix/src/bootloader-stamp"
-  "/home/caldo/project-name/build/bootloader-prefix/src"
-  "/home/caldo/project-name/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader"
+  "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix"
+  "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix/tmp"
+  "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix/src"
+  "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/home/caldo/project-name/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/home/caldo/project-name/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/home/caldo/Projetos/TREKKING-2024-2025/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()
